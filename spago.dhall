@@ -7,6 +7,7 @@
   , "lazy"
   , "lists"
   , "maybe"
+  , "newtype"
   , "partial"
   , "prelude"
   , "spec"
