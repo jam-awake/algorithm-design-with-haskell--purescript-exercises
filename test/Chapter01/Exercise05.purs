@@ -1,0 +1,57 @@
+module Test.Chapter01.Exercise05 where
+
+import Prelude
+
+import Control.Monad.Error.Class (try)
+import Data.Either (isLeft)
+import Data.Foldable (for_)
+import Data.Lazy (Lazy)
+import Data.Lazy as Lazy
+import Data.List (List(..), foldl, foldr)
+import Data.List as List
+import Data.Tuple (Tuple(..))
+import Test.Spec (Spec, describe, it, pending')
+import Test.Spec.Assertions (shouldEqual)
+
+-- This is what the book says to do, but it's stack-unsafe in PureScript.
+bookMapFn :: forall a b. (a -> b) -> List a -> List b
+bookMapFn f = foldr (\a tail -> Cons (f a) tail) Nil
+
+mapFn :: forall a b. (a -> b) -> List a -> List b
+mapFn f = foldl (\tail a -> Cons (f a) tail) Nil <<< List.reverse
+
+-- This is what the book says to do, but it's stack-unsafe in PureScript.
+bookFilterFn :: forall a. (a -> Boolean) -> List a -> List a
+bookFilterFn test = foldr (\a tail -> if test a then Cons a tail else tail) Nil
+
+filterFn :: forall a. (a -> Boolean) -> List a -> List a
+filterFn test = foldl (\tail a -> if test a then Cons a tail else tail) Nil <<< List.reverse
+
+spec :: Spec Unit
+spec = describe "Exercise 5" do
+  let
+    allInputs =
+      [ Tuple "empty input" $ (Nil :: List Int)
+      , Tuple "small input" $ List.range 1 10
+      , Tuple "medium input" $ List.range 1 100
+      ]
+  for_ allInputs \(Tuple msg input) -> do
+    it ("bookMapFn == mapFn (" <> msg <> ")") do
+      bookMapFn show input `shouldEqual` mapFn show input
+      mapFn show input `shouldEqual` (map show input)
+    it ("bookFilterFn == filterFn (" <> msg <> ")") do
+      let isEven x = x `mod` 2 == 0
+      bookFilterFn isEven input `shouldEqual` filterFn isEven input
+      filterFn isEven input `shouldEqual` (List.filter isEven input)
+  pending' "bookMapFn stack overflows on large inputs" do
+    result <- try do
+      pure $ bookMapFn show $ Lazy.force largeInput
+    isLeft result `shouldEqual` true
+  pending' "bookFilterFn stack overflows on large inputs" do
+    let isEven x = x `mod` 2 == 0
+    result <- try do
+      pure $ bookFilterFn isEven $ Lazy.force largeInput
+    isLeft result `shouldEqual` true
+
+largeInput :: Lazy (List Int)
+largeInput = Lazy.defer \_ -> List.range 1 1_000_000
