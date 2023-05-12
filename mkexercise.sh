@@ -81,7 +81,7 @@ EOF
   TMP_FILE="${PARENT_SPEC_PATH}.tmp"
   cat $PARENT_SPEC_PATH | sed "
     s/-- import Test.${CHAPTER_MODULE}.ExerciseX as ExerciseX/import Test.${CHAPTER_MODULE}.${EXERCISE_MODULE} as ${EXERCISE_MODULE}\n-- import Test.${CHAPTER_MODULE}.ExerciseX as ExerciseX/
-    s/-- ExerciseX.spec/${EXERCISE_MODULE}.spec\n-- ExerciseX.spec/
+    s/  -- ExerciseX.spec/  ${EXERCISE_MODULE}.spec\n  -- ExerciseX.spec/
     " > $TMP_FILE
   mv $TMP_FILE $PARENT_SPEC_PATH
   else
