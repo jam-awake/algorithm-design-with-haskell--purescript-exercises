@@ -24,7 +24,7 @@ spec = describe "Exercise 15" do
     initialList = 1 : 2 : 3 : 4 : 5 : Nil
     specialElem = 12
     inputs = do
-      amt <- Array.range 1 $ List.length initialList
+      amt <- Array.range 0 $ List.length initialList
       duplicateElem <- [ true, false ]
       if duplicateElem then do
         let
