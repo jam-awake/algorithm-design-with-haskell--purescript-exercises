@@ -27,6 +27,7 @@ spec = describe "Exercise 21" do
     steepInputs = List.fromFoldable $ map (Tuple true <<< List.fromFoldable)
       [ [ 4, 2, 1, 0 ]
       , [ 1, 3, 2, -2, -3 ]
+      , [ 0 ]
       ]
     notSteepInputs = List.fromFoldable $ map (Tuple false <<< List.fromFoldable)
       [ [ 2, 3, 0 ]
