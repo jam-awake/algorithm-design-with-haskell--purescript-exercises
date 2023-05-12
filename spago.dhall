@@ -4,6 +4,7 @@
   , "effect"
   , "either"
   , "foldable-traversable"
+  , "integers"
   , "lazy"
   , "lists"
   , "maybe"
