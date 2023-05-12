@@ -13,6 +13,7 @@ import Test.Chapter01.Exercise11 as Exercise11
 import Test.Chapter01.Exercise12 as Exercise12
 import Test.Chapter01.Exercise13 as Exercise13
 import Test.Chapter01.Exercise15 as Exercise15
+import Test.Chapter01.Exercise21 as Exercise21
 -- import Test.Chapter01.ExerciseX as ExerciseX
 import Test.Spec (Spec, describe)
 
@@ -29,5 +30,6 @@ spec = describe "Chapter 1" do
   Exercise12.spec
   Exercise13.spec
   Exercise15.spec
+  Exercise21.spec
   -- ExerciseX.spec
   pure unit
