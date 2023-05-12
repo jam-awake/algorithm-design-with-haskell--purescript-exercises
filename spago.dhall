@@ -1,6 +1,7 @@
 { name = "algorithm-design-with-haskell--purescript-exercises"
 , dependencies =
   [ "aff"
+  , "arrays"
   , "effect"
   , "either"
   , "foldable-traversable"
@@ -9,6 +10,7 @@
   , "lists"
   , "maybe"
   , "newtype"
+  , "nonempty"
   , "partial"
   , "prelude"
   , "spec"
