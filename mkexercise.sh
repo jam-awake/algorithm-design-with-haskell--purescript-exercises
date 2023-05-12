@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 
-# ./mkexercise.sh 1 2 p -- chapter 1's 2nd exercise (PureScript file)
-# ./mkexercise.sh 1 2 m -- chapter 1's 2nd exercise (Markdown file)
+# ./mkexercise.sh p 1 2 -- chapter 1's 2nd exercise (PureScript file)
+# ./mkexercise.sh m 1 2 -- chapter 1's 2nd exercise (Markdown file)
 
-case "$3" in
+FILE_TYPE_ARG="$1"
+CHAPTER_ARG="$2"
+EXERCISE_ARG="$3"
+
+case "${FILE_TYPE_ARG}" in
   "p")
     EXERCISE_EXT=".purs"
     ;;
@@ -17,8 +21,8 @@ case "$3" in
     ;;
 esac
 
-CHAPTER_NUM=$(printf "%02d\n" "$1")
-EXERCISE_NUM=$(printf "%02d\n" "$2")
+CHAPTER_NUM=$(printf "%02d\n" "${CHAPTER_ARG}")
+EXERCISE_NUM=$(printf "%02d\n" "${EXERCISE_ARG}")
 
 CHAPTER_MODULE="Chapter${CHAPTER_NUM}"
 EXERCISE_MODULE="Exercise${EXERCISE_NUM}"
@@ -43,7 +47,7 @@ import Prelude
 import Test.Spec (Spec, describe)
 
 spec :: Spec Unit
-spec = describe "Chapter $1" do
+spec = describe "Chapter ${CHAPTER_ARG}" do
   -- ExerciseX.spec
   pure unit
 EOF
@@ -68,7 +72,7 @@ import Prelude
 import Test.Spec (Spec, describe, it)
 
 spec :: Spec Unit
-spec = describe "Exercise $2" do
+spec = describe "Exercise ${EXERCISE_ARG}" do
   it "it should work" do
     pure unit
 EOF
@@ -83,7 +87,7 @@ EOF
   else
     echo "Creating Markdown file at ${EXERCISE_PATH} since it doesn't exist."
     cat > $EXERCISE_PATH << EOF
-# Exercise $2
+# Exercise ${EXERCISE_ARG}
 
 EOF
   fi
