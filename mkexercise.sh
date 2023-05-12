@@ -56,7 +56,7 @@ EOF
   TMP_FILE="${TEST_MAIN_PATH}.tmp"
   cat $TEST_MAIN_PATH | sed "
     s/-- import Test.ChapterX.Spec as ChapterX/import Test.${CHAPTER_MODULE}.Spec as ${CHAPTER_MODULE}\n-- import Test.ChapterX.Spec as ChapterX/
-    s/-- ChapterX.spec/${CHAPTER_MODULE}.spec\n-- ChapterX.spec/
+    s/-- ChapterX.spec/  ${CHAPTER_MODULE}.spec\n-- ChapterX.spec/
     " > $TMP_FILE
   mv $TMP_FILE $TEST_MAIN_PATH
 fi
