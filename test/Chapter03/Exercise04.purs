@@ -15,10 +15,12 @@ import Test.Chapter03.Code.SymmetricList as SymmetricList
 import Test.Spec (Spec, describe, it)
 import Test.Spec.Assertions (shouldEqual)
 
-halveSL :: forall a. SnocList a -> Maybe { head :: a, init :: List a, tail :: SnocList a }
-halveSL ls = do
+halveSLInit :: forall a. SnocList a -> Maybe { head :: a, init :: List a, tail :: SnocList a }
+halveSLInit ls = splitSLInit (SnocList.length ls / 2) ls
+
+splitSLInit :: forall a. Int -> SnocList a -> Maybe { head :: a, init :: List a, tail :: SnocList a }
+splitSLInit midPoint ls = do
   let
-    midPoint = SnocList.length ls / 2
     value = ls # flip foldrWithIndex Nothing \idx next acc0 -> do
       if isNothing acc0 then
         Just $ { head: next, init: Nil, tail: Nil }
@@ -41,7 +43,7 @@ unconsSL = case _ of
     Just $ { head, tail: _ } $ case init of
       Cons a init' ->
         Ends a init' tail last
-      Nil -> case halveSL tail of
+      Nil -> case halveSLInit tail of
         Nothing -> Single last
         Just r -> Ends r.head r.init r.tail last
 
@@ -51,14 +53,16 @@ tailSL = case _ of
   Single _ -> Just Empty
   Ends _ init tail last -> Just case List.uncons init of
     Just initR -> Ends initR.head initR.tail tail last
-    Nothing -> case halveSL tail of
+    Nothing -> case halveSLInit tail of
       Just tailR -> Ends tailR.head tailR.init tailR.tail last
       Nothing -> Single last
 
-halveList :: forall a. List a -> Maybe { init :: List a, tail :: SnocList a, last :: a }
-halveList ls = do
+halveListLast :: forall a. List a -> Maybe { init :: List a, tail :: SnocList a, last :: a }
+halveListLast ls = splitListLast (List.length ls / 2) ls
+
+splitListLast :: forall a. Int -> List a -> Maybe { init :: List a, tail :: SnocList a, last :: a }
+splitListLast midPoint ls = do
   let
-    midPoint = List.length ls / 2
     value = ls # flip foldlWithIndex Nothing \idx acc0 next -> do
       if isNothing acc0 then
         Just { init: SnocNil, tail: SnocNil, last: next }
@@ -79,7 +83,7 @@ unsnocSL = case _ of
     Just { init: Empty, last: a }
   Ends head init tail last -> Just $ { init: _, last } $ case tail of
     Snoc tail' last' -> Ends head init tail' last'
-    SnocNil -> case halveList init of
+    SnocNil -> case halveListLast init of
       Nothing -> Single head
       Just initR -> Ends head initR.init initR.tail initR.last
 
@@ -90,21 +94,21 @@ initSL = case _ of
   Single _ -> Just Empty
   Ends head init tail _ -> Just case tail of
     Snoc tail' last' -> Ends head init tail' last'
-    SnocNil -> case halveList init of
+    SnocNil -> case halveListLast init of
       Nothing -> Single head
       Just initR -> Ends head initR.init initR.tail initR.last
 
 spec :: Spec Unit
 spec = describe "Exercise 4" do
-  describe "halveSL" do
+  describe "halveSLInit" do
     it "empty" do
-      halveSL (SnocNil :: SnocList Int) `shouldEqual` (Nothing :: Maybe { head :: Int, init :: List Int, tail :: SnocList Int })
+      halveSLInit (SnocNil :: SnocList Int) `shouldEqual` (Nothing :: Maybe { head :: Int, init :: List Int, tail :: SnocList Int })
     it "singleton" do
-      halveSL (SnocNil <: 1) `shouldEqual` (Just { head: 1, init: Nil, tail: SnocNil })
+      halveSLInit (SnocNil <: 1) `shouldEqual` (Just { head: 1, init: Nil, tail: SnocNil })
     it "two elems" do
-      halveSL (SnocNil <: 1 <: 2) `shouldEqual` (Just { head: 1, init: Nil, tail: SnocNil <: 2 })
+      halveSLInit (SnocNil <: 1 <: 2) `shouldEqual` (Just { head: 1, init: Nil, tail: SnocNil <: 2 })
     it "three elems" do
-      halveSL (SnocNil <: 1 <: 2 <: 3) `shouldEqual` (Just { head: 1, init: Cons 2 Nil, tail: SnocNil <: 3 })
+      halveSLInit (SnocNil <: 1 <: 2 <: 3) `shouldEqual` (Just { head: 1, init: Cons 2 Nil, tail: SnocNil <: 3 })
 
   let
     inputs =
