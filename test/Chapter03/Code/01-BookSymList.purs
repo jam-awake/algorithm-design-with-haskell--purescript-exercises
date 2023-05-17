@@ -15,7 +15,7 @@ import Data.Tuple (Tuple(..))
 --    the fold would fold from the start of the list
 --    to the middle, and then from the end of the list
 --    to the middle
-type UnsafeSymmetricList a = Tuple (List a) (List a)
+type BookSymList a = Tuple (List a) (List a)
 
-toList :: forall a. UnsafeSymmetricList a -> List a
+toList :: forall a. BookSymList a -> List a
 toList (Tuple front back) = front <> List.reverse back
