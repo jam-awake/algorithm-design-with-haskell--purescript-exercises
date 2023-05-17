@@ -5,7 +5,6 @@ import Prelude
 import Data.Foldable (class Foldable, foldl, foldr)
 import Data.FoldableWithIndex (class FoldableWithIndex, foldMapWithIndexDefaultR, foldrWithIndex)
 import Data.List (List(..), (:))
-import Data.List as List
 
 -- Same as `List a` but the structure is defined in terms of
 -- `init` and `last`. (I first saw this concept
@@ -72,13 +71,8 @@ toList = go Nil -- same as `foldr Cons Nil`
     Snoc init last -> go (last : acc) init
 
 -- Converts the structure without changing the order of elements.
--- This is slower than `fromListReversed`
 fromList :: forall a. List a -> SnocList a
-fromList = fromListReversed <<< List.reverse
-
--- Converts the structure and reverses the order of elements.
-fromListReversed :: forall a. List a -> SnocList a
-fromListReversed = foldl Snoc SnocNil
+fromList = foldl Snoc SnocNil
 
 reverse :: forall a. SnocList a -> SnocList a
 reverse = foldr (flip Snoc) SnocNil

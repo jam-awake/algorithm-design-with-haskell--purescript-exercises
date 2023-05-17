@@ -8,7 +8,7 @@ import Data.List (List(..), (:))
 import Data.List as List
 import Data.Maybe (Maybe(..), isNothing)
 import Data.Tuple (Tuple(..))
-import Test.Chapter03.Code.SnocList (SnocList(..), fromListReversed, (<:))
+import Test.Chapter03.Code.SnocList (SnocList(..), (<:))
 import Test.Chapter03.Code.SnocList as SnocList
 import Test.Chapter03.Code.SymmetricList (SymmetricList(..))
 import Test.Chapter03.Code.SymmetricList as SymmetricList
@@ -29,7 +29,7 @@ halveSL ls = do
         acc0 <#> \acc ->
           acc { head = next, init = acc.head : acc.init }
 
-  value <#> \value' -> value' { tail = fromListReversed value'.tail }
+  value <#> \value' -> value' { tail = SnocList.fromList value'.tail }
 
 unconsSL :: forall a. SymmetricList a -> Maybe { head :: a, tail :: SymmetricList a }
 unconsSL = case _ of
