@@ -9,6 +9,7 @@ import Data.Tuple (Tuple(..))
 import Test.Chapter03.Code.AdtSymList as AdtSymList
 import Test.Chapter03.Code.BookSymList as BookSymList
 import Test.Chapter03.Code.CaseSymList as CaseSymList
+import Test.Chapter03.Code.SymmetricList as SymmetricList
 import Test.Chapter03.Code.SafishSymList as SafishSymList
 import Test.Chapter03.Code.SnocList (SnocList(..), (<:))
 import Test.Chapter03.Code.UnsafeSymList as UnsafeSymmetricList
@@ -57,6 +58,11 @@ spec = describe "Exercise 1" do
           (NonEmpty "a" $ Nil)
           (NonEmpty "d" $ SnocNil <: "b" <: "c")
       ]
+    symmetricList =
+      [ SymmetricList.Ends "a" ("b" : "c" : Nil) SnocNil "d"
+      , SymmetricList.Ends "a" ("b" : Nil) (SnocNil <: "c") "d"
+      , SymmetricList.Ends "a" Nil (SnocNil <: "b" <: "c") "d"
+      ]
     -- Unlike the cases above, there's only one way to represent this list
     -- in our ADT.
     adtSymList =
@@ -89,6 +95,11 @@ spec = describe "Exercise 1" do
       it ("Variant " <> show idx <> " should equal expected list") do
         CaseSymList.toList l `shouldEqual` expectedList
         CaseSymList.toList (CaseSymList.fromList expectedList) `shouldEqual` expectedList
+  describe "SymmetricList" do
+    forWithIndex_ symmetricList \idx l ->
+      it ("Variant " <> show idx <> " should equal expected list") do
+        SymmetricList.toList l `shouldEqual` expectedList
+        SymmetricList.toList (SymmetricList.fromList expectedList) `shouldEqual` expectedList
   it "AdtSymList - only variant should equal expected list" do
     AdtSymList.toList adtSymList `shouldEqual` expectedList
     AdtSymList.toList (AdtSymList.fromList expectedList) `shouldEqual` expectedList

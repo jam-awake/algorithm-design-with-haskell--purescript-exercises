@@ -9,7 +9,7 @@ import Data.Maybe (Maybe)
 import Data.Tuple (Tuple(..))
 import Test.Chapter03.Code.SnocList (SnocList(..))
 
--- Since a `CaseSymList` is itself a list, why not use it to combine 
+-- Since a `SymmetricList` is itself a list, why not use it to combine 
 -- both the front/back lists? If we do that, we get the below implementation.
 --
 -- One can start to see the beginning of the Finger Tree data structure here.
