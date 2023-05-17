@@ -61,3 +61,6 @@ toList = go Nil -- same as `foldr Cons Nil`
 
 fromList :: forall a. List a -> SnocList a
 fromList = foldr (flip Snoc) SnocNil
+
+length :: forall a. SnocList a -> Int
+length = foldr (\_ acc -> acc + 1) 0

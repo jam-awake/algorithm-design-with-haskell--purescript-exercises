@@ -1,0 +1,47 @@
+module Test.Chapter03.Exercise03 where
+
+import Prelude
+
+import Data.Foldable (for_)
+import Data.List (List(..), (:))
+import Data.List as List
+import Data.Maybe (Maybe(..))
+import Data.Tuple (Tuple(..))
+import Test.Chapter03.Code.SnocList (SnocList(..))
+import Test.Chapter03.Code.SymmetricList (SymmetricList(..))
+import Test.Chapter03.Code.SymmetricList as SymmetricList
+import Test.Spec (Spec, describe, it)
+import Test.Spec.Assertions (shouldEqual)
+
+-- Unfortunately, this operation is not O(1)
+-- because a very long list will have multiple nested `Ends`.
+-- So, this will be at least `O(n/2)` because it will
+-- traverse up to half of the list before hitting a `Single` or Empty case.
+consSL :: forall a. a -> SymmetricList a -> SymmetricList a
+consSL a = case _ of
+  Empty -> Single a
+  Single b -> Ends a Nil SnocNil b
+  Ends head init tail last -> Ends a (head : init) tail last
+
+headSL :: forall a. SymmetricList a -> Maybe a
+headSL = case _ of
+  Empty -> Nothing
+  Single a -> Just a
+  Ends first _ _ _ -> Just first
+
+spec :: Spec Unit
+spec = describe "Exercise 3" do
+  let
+    inputs =
+      [ Tuple "Empty list" Nil
+      , Tuple "Singleton list" $ pure 1
+      , Tuple "list of 1..10" $ List.range 1 10
+      ]
+  for_ inputs \(Tuple msg i) -> do
+    describe msg do
+      it "consSL should work" do
+        let expected = Cons 99 i
+        let actual = consSL 99 $ SymmetricList.fromList i
+        SymmetricList.toList actual `shouldEqual` expected
+      it "headSL should work" do
+        List.head i `shouldEqual` (headSL $ SymmetricList.fromList i)
