@@ -1,4 +1,4 @@
-module Test.Chapter02.Code.BookSymList where
+module Test.Chapter03.Code.BookSymList where
 
 import Prelude
 

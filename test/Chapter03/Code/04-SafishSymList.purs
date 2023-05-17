@@ -1,10 +1,10 @@
-module Test.Chapter02.Code.SafishSymList where
+module Test.Chapter03.Code.SafishSymList where
 
 import Prelude
 
 import Data.List (List)
-import Test.Chapter02.Code.SnocList (SnocList)
-import Test.Chapter02.Code.SnocList as SnocList
+import Test.Chapter03.Code.SnocList (SnocList)
+import Test.Chapter03.Code.SnocList as SnocList
 
 -- Using `SnocList` for the `back` value's type
 -- makes the desired structure more obvious

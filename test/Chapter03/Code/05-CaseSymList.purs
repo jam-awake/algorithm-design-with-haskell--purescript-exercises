@@ -1,11 +1,11 @@
-module Test.Chapter02.Code.CaseSymList where
+module Test.Chapter03.Code.CaseSymList where
 
 import Prelude
 
 import Data.List (List(..))
 import Data.Foldable (foldr)
 import Data.NonEmpty (NonEmpty, (:|))
-import Test.Chapter02.Code.SnocList (SnocList)
+import Test.Chapter03.Code.SnocList (SnocList)
 
 -- Simplifies the invariants described by the book with an ADT
 -- that highlights the three different cases.

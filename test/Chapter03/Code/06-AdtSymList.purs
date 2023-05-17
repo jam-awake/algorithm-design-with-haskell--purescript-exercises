@@ -1,4 +1,4 @@
-module Test.Chapter02.Code.AdtSymList where
+module Test.Chapter03.Code.AdtSymList where
 
 import Prelude
 

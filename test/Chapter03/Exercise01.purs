@@ -1,4 +1,4 @@
-module Test.Chapter02.Exercise01 where
+module Test.Chapter03.Exercise01 where
 
 import Prelude
 
@@ -6,12 +6,12 @@ import Data.FoldableWithIndex (forWithIndex_)
 import Data.List (List(..), (:))
 import Data.NonEmpty (NonEmpty(..))
 import Data.Tuple (Tuple(..))
-import Test.Chapter02.Code.AdtSymList as AdtSymList
-import Test.Chapter02.Code.BookSymList as BookSymList
-import Test.Chapter02.Code.CaseSymList as CaseSymList
-import Test.Chapter02.Code.SafishSymList as SafishSymList
-import Test.Chapter02.Code.SnocList (SnocList(..), (<:))
-import Test.Chapter02.Code.UnsafeSymList as UnsafeSymmetricList
+import Test.Chapter03.Code.AdtSymList as AdtSymList
+import Test.Chapter03.Code.BookSymList as BookSymList
+import Test.Chapter03.Code.CaseSymList as CaseSymList
+import Test.Chapter03.Code.SafishSymList as SafishSymList
+import Test.Chapter03.Code.SnocList (SnocList(..), (<:))
+import Test.Chapter03.Code.UnsafeSymList as UnsafeSymmetricList
 import Test.Spec (Spec, describe, it)
 import Test.Spec.Assertions (shouldEqual)
 

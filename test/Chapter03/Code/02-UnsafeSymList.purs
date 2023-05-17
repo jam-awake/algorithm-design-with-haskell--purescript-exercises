@@ -1,4 +1,4 @@
-module Test.Chapter02.Code.UnsafeSymList where
+module Test.Chapter03.Code.UnsafeSymList where
 
 import Prelude
 
