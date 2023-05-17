@@ -10,7 +10,7 @@ import Test.Chapter03.Exercise04 as Exercise04
 import Test.Spec (Spec, describe)
 
 spec :: Spec Unit
-spec = describe "Chapter 2" do
+spec = describe "Chapter 3" do
   Exercise01.spec
   Exercise02.spec
   Exercise03.spec
