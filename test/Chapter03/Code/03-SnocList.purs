@@ -3,7 +3,9 @@ module Test.Chapter03.Code.SnocList where
 import Prelude
 
 import Data.Foldable (class Foldable, foldl, foldr)
+import Data.FoldableWithIndex (class FoldableWithIndex, foldMapWithIndexDefaultR, foldrWithIndex)
 import Data.List (List(..), (:))
+import Data.List as List
 
 -- Same as `List a` but the structure is defined in terms of
 -- `init` and `last`. (I first saw this concept
@@ -25,23 +27,19 @@ snoc = Snoc
 
 infixl 6 Snoc as <:
 
+instance Show a => Show (SnocList a) where
+  show ls = go "" ls
+    where
+    go acc = case _ of
+      SnocNil
+        | acc == "" -> "SnocNil"
+        | otherwise -> "(SnocNil" <> acc <> ")"
+      Snoc rest a -> go (acc <> " <: " <> show a) rest
+
 -- The derived `foldl` would not be stack-safe whereas the derived `foldr` would be.
 instance Foldable SnocList where
   foldl :: forall a b. (b -> a -> b) -> b -> SnocList a -> b
-  foldl f b list {-
-    = case list of
-        SnocNil -> 
-          b
-        Snoc init last ->
-          -- Stack unsafe! We need an accumulator here.
-          f (foldl f b init) last
-
-    -- For the accumulator value to work, we need to run code like
-    --     foldl f (f b head) tail
-    -- which is `List`'s `foldl` implementation. Thus,
-    -- we should "reverse" a `SnocList` by converting it to a `List`
-    -- and then use `foldl`.
-    -} = foldl f b $ toList list
+  foldl f b list = foldr (flip f) b $ reverse list
 
   -- This, however, is stack-safe. If we look at `List`'s `foldr` instance,
   -- we'll see that it's `foldr f b <<< toSnocList`.
@@ -52,6 +50,20 @@ instance Foldable SnocList where
 
   foldMap f = foldr (\a m -> (f a) <> m) mempty
 
+instance FoldableWithIndex Int SnocList where
+  foldlWithIndex :: forall a b. (Int -> b -> a -> b) -> b -> SnocList a -> b
+  foldlWithIndex f b = foldrWithIndex (\i a b' -> f i b' a) b <<< reverse
+
+  foldrWithIndex :: forall a b. (Int -> a -> b -> b) -> b -> SnocList a -> b
+  foldrWithIndex = go 0
+    where
+    go idx f b = case _ of
+      SnocNil -> b
+      Snoc init last -> go (idx + 1) f (f idx last b) init
+
+  foldMapWithIndex = foldMapWithIndexDefaultR
+
+-- Converts the structure without changing the order of elements.
 toList :: forall a. SnocList a -> List a
 toList = go Nil -- same as `foldr Cons Nil`
   where
@@ -59,8 +71,17 @@ toList = go Nil -- same as `foldr Cons Nil`
     SnocNil -> acc
     Snoc init last -> go (last : acc) init
 
+-- Converts the structure without changing the order of elements.
+-- This is slower than `fromListReversed`
 fromList :: forall a. List a -> SnocList a
-fromList = foldr (flip Snoc) SnocNil
+fromList = fromListReversed <<< List.reverse
+
+-- Converts the structure and reverses the order of elements.
+fromListReversed :: forall a. List a -> SnocList a
+fromListReversed = foldl Snoc SnocNil
+
+reverse :: forall a. SnocList a -> SnocList a
+reverse = foldr (flip Snoc) SnocNil
 
 length :: forall a. SnocList a -> Int
 length = foldr (\_ acc -> acc + 1) 0
