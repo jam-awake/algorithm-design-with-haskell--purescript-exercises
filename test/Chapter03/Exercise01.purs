@@ -73,17 +73,22 @@ spec = describe "Exercise 1" do
     forWithIndex_ bookSymList \idx l ->
       it ("Variant " <> show idx <> " should equal expected list") do
         BookSymList.toList l `shouldEqual` expectedList
+        BookSymList.toList (BookSymList.fromList expectedList) `shouldEqual` expectedList
   describe "UnsafeSymmetricList" do
     forWithIndex_ unsafeList \idx l ->
       it ("Variant " <> show idx <> " should equal expected list") do
         UnsafeSymmetricList.toList l `shouldEqual` expectedList
+        UnsafeSymmetricList.toList (UnsafeSymmetricList.fromList expectedList) `shouldEqual` expectedList
   describe "SafishSymmetricList" do
     forWithIndex_ safishList \idx l ->
       it ("Variant " <> show idx <> " should equal expected list") do
         SafishSymList.toList l `shouldEqual` expectedList
+        SafishSymList.toList (SafishSymList.fromList expectedList) `shouldEqual` expectedList
   describe "CaseSymList" do
     forWithIndex_ caseSymList \idx l ->
       it ("Variant " <> show idx <> " should equal expected list") do
         CaseSymList.toList l `shouldEqual` expectedList
+        CaseSymList.toList (CaseSymList.fromList expectedList) `shouldEqual` expectedList
   it "AdtSymList - only variant should equal expected list" do
     AdtSymList.toList adtSymList `shouldEqual` expectedList
+    AdtSymList.toList (AdtSymList.fromList expectedList) `shouldEqual` expectedList

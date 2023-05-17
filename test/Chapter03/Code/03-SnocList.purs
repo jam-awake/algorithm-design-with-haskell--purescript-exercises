@@ -58,3 +58,6 @@ toList = go Nil -- same as `foldr Cons Nil`
   go acc = case _ of
     SnocNil -> acc
     Snoc init last -> go (last : acc) init
+
+fromList :: forall a. List a -> SnocList a
+fromList = foldr (flip Snoc) SnocNil
