@@ -4,7 +4,7 @@ import Prelude
 
 import Data.Eq (class Eq1)
 import Data.Foldable (class Foldable, foldl, foldr)
-import Data.FoldableWithIndex (class FoldableWithIndex, foldMapWithIndexDefaultR, foldrWithIndex)
+import Data.FoldableWithIndex (class FoldableWithIndex, foldMapWithIndexDefaultL, foldlWithIndex)
 import Data.List (List(..), (:))
 
 -- Whereas `List a` is defined in terms of `head` and `tail`,
@@ -59,16 +59,31 @@ instance Foldable SnocList where
 
 instance FoldableWithIndex Int SnocList where
   foldlWithIndex :: forall a b. (Int -> b -> a -> b) -> b -> SnocList a -> b
-  foldlWithIndex f b = foldrWithIndex (\i a b' -> f i b' a) b <<< reverse
+  foldlWithIndex f b = foldlWithIndex f b <<< toList
 
+  -- Unfortunately, `foldrWithIndex` assumes the index is zero-based in a left-to-right direction.
+  -- For `SnocList`, it would be ideal if the index was in a right-to-left direction.
+  -- So, we have to reverse the list to get the total number of elements
+  -- and then traverse the list a second time to do the fold, producing the index
+  -- by subtracting the current index from the length
   foldrWithIndex :: forall a b. (Int -> a -> b -> b) -> b -> SnocList a -> b
-  foldrWithIndex = go 0
+  foldrWithIndex f b ls = go 0 b ls
     where
-    go idx f b = case _ of
+    lastIdx = length ls - 1
+    go offset b' = case _ of
       SnocNil -> b
-      Snoc init last -> go (idx + 1) f (f idx last b) init
+      Snoc init last -> go (offset + 1) (f (lastIdx - offset) last b') init
 
-  foldMapWithIndex = foldMapWithIndexDefaultR
+  foldMapWithIndex = foldMapWithIndexDefaultL
+
+-- Similar to `foldrWithIndex` but the `Int` arg is in a right-to-left direction
+-- where the last element has index 0 and the first element has (`SnocList.length ls - 1`).
+foldrWithLastIndex :: forall a b. (Int -> a -> b -> b) -> b -> SnocList a -> b
+foldrWithLastIndex f = go 0
+  where
+  go lastIdx b = case _ of
+    SnocNil -> b
+    Snoc init last -> go (lastIdx + 1) (f lastIdx last b) init
 
 -- Converts the structure without changing the order of elements.
 toList :: forall a. SnocList a -> List a

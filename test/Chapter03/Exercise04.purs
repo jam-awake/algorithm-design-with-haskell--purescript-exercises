@@ -3,12 +3,12 @@ module Test.Chapter03.Exercise04 where
 import Prelude
 
 import Data.Foldable (for_)
-import Data.FoldableWithIndex (foldlWithIndex, foldrWithIndex)
+import Data.FoldableWithIndex (foldlWithIndex)
 import Data.List (List(..), (:))
 import Data.List as List
 import Data.Maybe (Maybe(..), isNothing)
 import Data.Tuple (Tuple(..))
-import Test.Chapter03.Code.SnocList (SnocList(..), (<:))
+import Test.Chapter03.Code.SnocList (SnocList(..), foldrWithLastIndex, (<:))
 import Test.Chapter03.Code.SnocList as SnocList
 import Test.Chapter03.Code.SymmetricList (SymmetricList(..))
 import Test.Chapter03.Code.SymmetricList as SymmetricList
@@ -21,7 +21,7 @@ halveSLInit ls = splitSLInit (SnocList.length ls / 2) ls
 splitSLInit :: forall a. Int -> SnocList a -> Maybe { head :: a, init :: List a, tail :: SnocList a }
 splitSLInit midPoint ls = do
   let
-    value = ls # flip foldrWithIndex Nothing \idx next acc0 -> do
+    value = ls # flip foldrWithLastIndex Nothing \idx next acc0 -> do
       if isNothing acc0 then
         Just $ { head: next, init: Nil, tail: Nil }
       else if idx <= midPoint then
