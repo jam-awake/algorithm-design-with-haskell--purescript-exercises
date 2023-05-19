@@ -13,10 +13,6 @@ import Test.Chapter03.Code.SymmetricList as SymmetricList
 import Test.Spec (Spec, describe, it)
 import Test.Spec.Assertions (shouldEqual)
 
--- Unfortunately, this operation is not O(1)
--- because a very long list will have multiple nested `Ends`.
--- So, this will be at least `O(n/2)` because it will
--- traverse up to half of the list before hitting a `Single` or Empty case.
 consSL :: forall a. a -> SymmetricList a -> SymmetricList a
 consSL a = case _ of
   Empty -> Single a
