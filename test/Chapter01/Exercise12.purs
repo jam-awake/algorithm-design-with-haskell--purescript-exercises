@@ -84,7 +84,7 @@ instance (Show (f a), Show a) => Show (NonEmptyR f a) where
 -- This implementation is both stack-safe and heap-safe and easier to read than the above.
 --  - Stack-safety: `go` is always called in a tail-call position.
 --  - Heap-safety: by using `SnocList`, the `1` element is in the tail position,
---      which means it can be reused amongst all the lists after that pont.
+--      which means it can be reused amongst all the lists after that point.
 --      Thus, this implementation utilizes persistence.
 --
 -- To indicate non-emptyness, we use `NonEmptyR` rather than `NonEMpty`
@@ -98,8 +98,8 @@ instance (Show (f a), Show a) => Show (NonEmptyR f a) where
 --      <: (SnocNil <: 1)
 --      <: (SnocNil <: 1 <: 2)
 --      |: (SnocNil <: 1 <: 2 <: 3)
-inits :: forall a. List a -> NonEmptyR SnocList (SnocList a)
-inits = go SnocNil SnocNil
+inits' :: forall a. List a -> NonEmptyR SnocList (SnocList a)
+inits' = go SnocNil SnocNil
   where
   go :: SnocList (SnocList a) -> SnocList a -> List a -> NonEmptyR SnocList (SnocList a)
   go initRuns prevRun = case _ of
@@ -107,6 +107,16 @@ inits = go SnocNil SnocNil
       initRuns |: prevRun
     Cons h t -> do
       go (initRuns <: prevRun) (Snoc prevRun h) t
+
+-- Note that in `inits`, the returned outer list is still `SnocList`.
+-- If we want the closest we can get to `inits`, we can reverse the outer `SnocList`
+-- without running into heap-safety issues. If we reverse the inner `SnocList`,
+-- that's when we run into heap-safety issues.
+inits :: forall a. List a -> NonEmpty List (SnocList a)
+inits = toNonEmptyList <<< inits'
+
+toNonEmptyList :: forall a. NonEmptyR SnocList a -> NonEmpty List a
+toNonEmptyList (i |: l) = unwrap $ foldr NEL.nelCons (pure l) i
 
 -- Below is the code we would write for a stack-safe, heap-safe `tails`.
 -- It's actually easier to implement a version that returns back a `SnocList`
@@ -123,9 +133,7 @@ inits = go SnocNil SnocNil
 --
 -- 
 tails :: forall a. List a -> NonEmpty List (List a)
-tails ls = do
-  let i |: l = tails' ls
-  unwrap $ foldr NEL.nelCons (pure l) i
+tails = toNonEmptyList <<< tails'
 
 tails' :: forall a. List a -> NonEmptyR SnocList (List a)
 tails' = go SnocNil
@@ -152,20 +160,35 @@ spec = describe "Exercise 12" do
               : (1 : 2 : 3 : 4 : Nil)
               : Nil
         )
-  describe "inits (stack-safe; heap-safe)" do
+  describe "inits (stack-safe; heap-safe; outer list is SnocList)" do
     it "works on empty lists" do
-      (inits (Nil :: List Int)) `shouldEqual`
+      (inits' (Nil :: List Int)) `shouldEqual`
         ( SnocNil
             |: (SnocNil :: SnocList Int)
         )
     it "works on small inputs" do
-      (inits (1 : 2 : 3 : 4 : Nil)) `shouldEqual`
+      (inits' (1 : 2 : 3 : 4 : Nil)) `shouldEqual`
         ( (SnocNil :: SnocList (SnocList Int))
             <: (SnocNil :: SnocList Int)
             <: (SnocNil <: 1)
             <: (SnocNil <: 1 <: 2)
             <: (SnocNil <: 1 <: 2 <: 3)
             |: (SnocNil <: 1 <: 2 <: 3 <: 4)
+        )
+  describe "inits (stack-safe; heap-safe; outer list is List)" do
+    it "works on empty lists" do
+      (inits (Nil :: List Int)) `shouldEqual`
+        ( (SnocNil :: SnocList Int)
+            :| Nil
+        )
+    it "works on small inputs" do
+      (inits (1 : 2 : 3 : 4 : Nil)) `shouldEqual`
+        ( (SnocNil :: SnocList Int)
+            :| (SnocNil <: 1)
+              : (SnocNil <: 1 <: 2)
+              : (SnocNil <: 1 <: 2 <: 3)
+              : (SnocNil <: 1 <: 2 <: 3 <: 4)
+              : Nil
         )
   describe "tails" do
     it "works on empty inputs" do
