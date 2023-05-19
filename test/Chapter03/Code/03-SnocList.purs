@@ -7,10 +7,16 @@ import Data.Foldable (class Foldable, foldl, foldr)
 import Data.FoldableWithIndex (class FoldableWithIndex, foldMapWithIndexDefaultR, foldrWithIndex)
 import Data.List (List(..), (:))
 
--- Same as `List a` but the structure is defined in terms of
--- `init` and `last`. (I first saw this concept
--- when looking at Idris 2's basic types and I was surprised
--- that this type wasn't defined in PureScript.)
+-- Whereas `List a` is defined in terms of `head` and `tail`,
+-- `SnocList` is defined in terms of `init` and `last`. 
+-- (I first saw this concept when looking at Idris 2's basic types
+-- and I was surprised that this type wasn't defined in PureScript.)
+--
+-- ```
+-- let list     =            1  : 2  : 3 : Nil
+-- let snocList = SnocNil <: 1 <: 2 <: 3
+-- toList snocList == list && fromList lsit == snocList
+-- ```
 data SnocList a
   = SnocNil
   | Snoc (SnocList a) a
