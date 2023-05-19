@@ -2,6 +2,7 @@ module Test.Chapter03.Code.SnocList where
 
 import Prelude
 
+import Data.Eq (class Eq1)
 import Data.Foldable (class Foldable, foldl, foldr)
 import Data.FoldableWithIndex (class FoldableWithIndex, foldMapWithIndexDefaultR, foldrWithIndex)
 import Data.List (List(..), (:))
@@ -15,6 +16,7 @@ data SnocList a
   | Snoc (SnocList a) a
 
 derive instance Eq a => Eq (SnocList a)
+derive instance Eq1 SnocList
 derive instance Ord a => Ord (SnocList a)
 derive instance Functor SnocList
 
