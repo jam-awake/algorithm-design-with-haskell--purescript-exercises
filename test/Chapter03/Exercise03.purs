@@ -7,7 +7,7 @@ import Data.List (List(..), (:))
 import Data.List as List
 import Data.Maybe (Maybe(..))
 import Data.Tuple (Tuple(..))
-import Test.Chapter03.Code.SnocList (SnocList(..))
+import Test.Chapter01.Exercise12.SnocList (SnocList(..))
 import Test.Chapter03.Code.SymmetricList (SymmetricList(..))
 import Test.Chapter03.Code.SymmetricList as SymmetricList
 import Test.Spec (Spec, describe, it)

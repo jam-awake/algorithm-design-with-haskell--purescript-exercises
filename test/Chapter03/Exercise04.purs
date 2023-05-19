@@ -8,8 +8,8 @@ import Data.List (List(..), (:))
 import Data.List as List
 import Data.Maybe (Maybe(..), isNothing)
 import Data.Tuple (Tuple(..))
-import Test.Chapter03.Code.SnocList (SnocList(..), foldrWithLastIndex, (<:))
-import Test.Chapter03.Code.SnocList as SnocList
+import Test.Chapter01.Exercise12.SnocList (SnocList(..), foldrWithLastIndex, (<:))
+import Test.Chapter01.Exercise12.SnocList as SnocList
 import Test.Chapter03.Code.SymmetricList (SymmetricList(..))
 import Test.Chapter03.Code.SymmetricList as SymmetricList
 import Test.Spec (Spec, describe, it)

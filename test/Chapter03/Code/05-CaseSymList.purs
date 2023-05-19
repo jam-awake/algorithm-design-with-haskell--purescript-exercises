@@ -5,7 +5,7 @@ import Prelude
 import Data.Foldable (foldl, foldr)
 import Data.List (List(..))
 import Data.NonEmpty (NonEmpty, (:|))
-import Test.Chapter03.Code.SnocList (SnocList(..), (<:))
+import Test.Chapter01.Exercise12.SnocList (SnocList(..), (<:))
 
 -- Simplifies the invariants described by the book with an ADT
 -- that highlights the three different cases.

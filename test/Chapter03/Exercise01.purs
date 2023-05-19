@@ -11,7 +11,7 @@ import Test.Chapter03.Code.BookSymList as BookSymList
 import Test.Chapter03.Code.CaseSymList as CaseSymList
 import Test.Chapter03.Code.SymmetricList as SymmetricList
 import Test.Chapter03.Code.SafishSymList as SafishSymList
-import Test.Chapter03.Code.SnocList (SnocList(..), (<:))
+import Test.Chapter01.Exercise12.SnocList (SnocList(..), (<:))
 import Test.Chapter03.Code.UnsafeSymList as UnsafeSymmetricList
 import Test.Spec (Spec, describe, it)
 import Test.Spec.Assertions (shouldEqual)

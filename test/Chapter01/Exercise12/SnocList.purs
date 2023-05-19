@@ -1,4 +1,4 @@
-module Test.Chapter03.Code.SnocList where
+module Test.Chapter01.Exercise12.SnocList where
 
 import Prelude
 

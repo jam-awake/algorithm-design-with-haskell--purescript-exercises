@@ -4,7 +4,7 @@ import Prelude
 
 import Data.Foldable (foldl, foldr)
 import Data.List (List(..))
-import Test.Chapter03.Code.SnocList (SnocList(..), (<:))
+import Test.Chapter01.Exercise12.SnocList (SnocList(..), (<:))
 
 -- Same as `CaseSymList` but inlines the `NonEmpty`, 
 -- so we don't pay for additional boxing.

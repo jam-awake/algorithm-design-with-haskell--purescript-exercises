@@ -7,7 +7,7 @@ import Data.Generic.Rep (class Generic)
 import Data.List (List(..), (:))
 import Data.List as List
 import Data.Maybe (Maybe(..))
-import Test.Chapter03.Code.SnocList (SnocList(..), (<:))
+import Test.Chapter01.Exercise12.SnocList (SnocList(..), (<:))
 
 data Tree a
   = Leaf a

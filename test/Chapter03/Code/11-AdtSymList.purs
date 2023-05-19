@@ -7,7 +7,7 @@ import Data.Foldable (foldl)
 import Data.List (List(..), (:))
 import Data.Maybe (Maybe)
 import Data.Tuple (Tuple(..))
-import Test.Chapter03.Code.SnocList (SnocList(..))
+import Test.Chapter01.Exercise12.SnocList (SnocList(..))
 
 -- Since a `SymmetricList` is itself a list, why not use it to combine 
 -- both the front/back lists? If we do that, we get the below implementation.

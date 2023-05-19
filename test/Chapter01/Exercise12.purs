@@ -9,7 +9,7 @@ import Data.List.Types (List(..), (:))
 import Data.List.Types as NEL
 import Data.Newtype (unwrap)
 import Data.NonEmpty (NonEmpty, (:|))
-import Test.Chapter03.Code.SnocList (SnocList(..), (<:))
+import Test.Chapter01.Exercise12.SnocList (SnocList(..), (<:))
 import Test.Spec (Spec, describe, it)
 import Test.Spec.Assertions (shouldEqual)
 

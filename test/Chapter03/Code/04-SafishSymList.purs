@@ -5,8 +5,8 @@ import Prelude
 import Data.FoldableWithIndex (foldlWithIndex)
 import Data.List (List)
 import Data.List as List
-import Test.Chapter03.Code.SnocList (SnocList(..))
-import Test.Chapter03.Code.SnocList as SnocList
+import Test.Chapter01.Exercise12.SnocList (SnocList(..))
+import Test.Chapter01.Exercise12.SnocList as SnocList
 
 -- Using `SnocList` for the `back` value's type
 -- makes the desired structure more obvious
