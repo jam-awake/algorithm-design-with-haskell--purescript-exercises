@@ -110,7 +110,7 @@ consRA a ls = consRA' SnocNil (Leaf a) ls
 
   consTree :: SnocList (Digit a) -> Tree a -> Digit a -> RandomAccessList a -> RandomAccessList a
   consTree zeroAcc leaf h tail = case h of
-    Zero -> foldr Cons ((One leaf) : Nil) zeroAcc
+    Zero -> foldr Cons ((One leaf) : tail) zeroAcc
     One t -> consRA' (zeroAcc <: Zero) (node leaf t) tail
 
 -- This is the implementation provided by the book. However, it is not stack-safe.
