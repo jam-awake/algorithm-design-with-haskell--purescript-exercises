@@ -11,7 +11,7 @@ import Test.Chapter01.Exercise12.SnocList (SnocList(..), (<:))
 import Test.Chapter01.Exercise12.SnocList as SnocList
 import Test.Chapter03.Code.SymmetricList (SymmetricList(..))
 import Test.Chapter03.Code.SymmetricList as SymmetricList
-import Test.Chapter03.Exercise04 (splitListLast, splitSLInit)
+import Test.Chapter03.Exercise04 (splitListLast, splitSnocInit)
 import Test.Spec (Spec, describe, it)
 import Test.Spec.Assertions (shouldEqual)
 
@@ -24,7 +24,7 @@ halveListInit ls = do
       }
     { len, snocList } = foldl convertAndCount { len: 0, snocList: SnocNil } ls
     midPoint = len / 2
-  splitSLInit midPoint snocList
+  splitSnocInit midPoint snocList
 
 dropWhileSL :: forall a. (a -> Boolean) -> SymmetricList a -> SymmetricList a
 dropWhileSL predicate ls = case ls of
@@ -38,15 +38,15 @@ dropWhileSL predicate ls = case ls of
         -- 1. a `SnocList` is in `last` position and the drop direction is from head-to-last.
         --    Since we need to access that head, we convert it to a List via toList
         -- 2. `List` already has a `dropWhile`, so we just reuse that here.
-        -- 3. To get the `head`, `init`, and `tail` values, we need to use `halveSLInit`, but
+        -- 3. To get the `head`, `init`, and `tail` values, we need to use `halveSnocInit`, but
         --    that only works on `SnocList`s, not `List`s. Trying to implement it
         --    for `List`s gets problematic fast due to direction-related issues. 
         --    (If you're curious to see what those are, try implementing this yourself.)
-        --    While we could convert the `List` to a `SnocList` and then use `halveSLInit`,
-        --    the issue is that `halveSLInit` will traverse the list to get the length of it
+        --    While we could convert the `List` to a `SnocList` and then use `halveSnocInit`,
+        --    the issue is that `halveSnocInit` will traverse the list to get the length of it
         --    to calculate the midpoint. If we're already traversing the list when converting
         --    it from `List` to `SnocList`, we can calculate the length in that same fold
-        --    and then use `splitSlInit` directly. Thus, we've reimplemented `halveSLInit`
+        --    and then use `splitSLInit` directly. Thus, we've reimplemented `halveSnocInit`
         --    in a more efficient manner.
         case halveListInit $ List.dropWhile predicate $ SnocList.toList tail of
           Just tailR -> Ends tailR.head tailR.init tailR.tail last

@@ -19,11 +19,11 @@ import Test.Spec.Assertions (shouldEqual)
 -- would remove the traversal needed to calculate how long that list is,
 -- so that we can calculate where the midpoint is. Otherwise,
 -- we don't know where the split should occur.
-halveSLInit :: forall a. SnocList a -> Maybe { head :: a, init :: List a, tail :: SnocList a }
-halveSLInit ls = splitSLInit (SnocList.length ls / 2) ls
+halveSnocInit :: forall a. SnocList a -> Maybe { head :: a, init :: List a, tail :: SnocList a }
+halveSnocInit ls = splitSnocInit (SnocList.length ls / 2) ls
 
-splitSLInit :: forall a. Int -> SnocList a -> Maybe { head :: a, init :: List a, tail :: SnocList a }
-splitSLInit midPoint ls = do
+splitSnocInit :: forall a. Int -> SnocList a -> Maybe { head :: a, init :: List a, tail :: SnocList a }
+splitSnocInit midPoint ls = do
   let
     value = ls # flip foldrWithLastIndex Nothing \idx next acc0 -> do
       if isNothing acc0 then
@@ -47,7 +47,7 @@ unconsSL = case _ of
     Just $ { head, tail: _ } $ case init of
       Cons a init' ->
         Ends a init' tail last
-      Nil -> case halveSLInit tail of
+      Nil -> case halveSnocInit tail of
         Nothing -> Single last
         Just r -> Ends r.head r.init r.tail last
 
@@ -57,11 +57,11 @@ tailSL = case _ of
   Single _ -> Just Empty
   Ends _ init tail last -> Just case List.uncons init of
     Just initR -> Ends initR.head initR.tail tail last
-    Nothing -> case halveSLInit tail of
+    Nothing -> case halveSnocInit tail of
       Just tailR -> Ends tailR.head tailR.init tailR.tail last
       Nothing -> Single last
 
--- Note: Same comments in `halveSLInit` apply here. 
+-- Note: Same comments in `halveSnocInit` apply here. 
 halveListLast :: forall a. List a -> Maybe { init :: List a, tail :: SnocList a, last :: a }
 halveListLast ls = splitListLast (List.length ls / 2) ls
 
@@ -105,15 +105,15 @@ initSL = case _ of
 
 spec :: Spec Unit
 spec = describe "Exercise 4" do
-  describe "halveSLInit" do
+  describe "halveSnocInit" do
     it "empty" do
-      halveSLInit (SnocNil :: SnocList Int) `shouldEqual` (Nothing :: Maybe { head :: Int, init :: List Int, tail :: SnocList Int })
+      halveSnocInit (SnocNil :: SnocList Int) `shouldEqual` (Nothing :: Maybe { head :: Int, init :: List Int, tail :: SnocList Int })
     it "singleton" do
-      halveSLInit (SnocNil <: 1) `shouldEqual` (Just { head: 1, init: Nil, tail: SnocNil })
+      halveSnocInit (SnocNil <: 1) `shouldEqual` (Just { head: 1, init: Nil, tail: SnocNil })
     it "two elems" do
-      halveSLInit (SnocNil <: 1 <: 2) `shouldEqual` (Just { head: 1, init: Nil, tail: SnocNil <: 2 })
+      halveSnocInit (SnocNil <: 1 <: 2) `shouldEqual` (Just { head: 1, init: Nil, tail: SnocNil <: 2 })
     it "three elems" do
-      halveSLInit (SnocNil <: 1 <: 2 <: 3) `shouldEqual` (Just { head: 1, init: Cons 2 Nil, tail: SnocNil <: 3 })
+      halveSnocInit (SnocNil <: 1 <: 2 <: 3) `shouldEqual` (Just { head: 1, init: Cons 2 Nil, tail: SnocNil <: 3 })
 
   let
     inputs =
