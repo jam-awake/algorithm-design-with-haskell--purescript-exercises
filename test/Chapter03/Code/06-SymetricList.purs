@@ -2,6 +2,7 @@ module Test.Chapter03.Code.SymmetricList where
 
 import Prelude
 
+import Data.Eq (class Eq1)
 import Data.Foldable (foldl, foldr)
 import Data.List (List(..))
 import Test.Chapter01.Exercise12.SnocList (SnocList(..), (<:))
@@ -40,3 +41,12 @@ fromList ls = do
       Ends head init tail last -> Ends head init (tail <: last) a
 
   foldl snoc Empty ls
+
+instance Show a => Show (SymmetricList a) where
+  show = case _ of
+    Empty -> "Empty"
+    Single a -> "(Single " <> show a <> " )"
+    Ends h i t l -> "(Ends " <> show h <> " " <> show i <> " " <> show t <> " " <> show l <> " )"
+
+derive instance Eq a => Eq (SymmetricList a)
+derive instance Eq1 SymmetricList
