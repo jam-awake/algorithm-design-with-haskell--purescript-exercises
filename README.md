@@ -8,19 +8,19 @@ Support the authors by buying the book or view it online via the link above.
 
 ## State of the Solutions
 
-- [x] Chapter 1
-- [ ] Chapter 2 - skipped for the time being
-- [ ] Chapter 3 - WIP
-- [ ] Chapter 4
-- [ ] Chapter 5
-- [ ] Chapter 6
-- [ ] Chapter 7
-- [ ] Chapter 8
-- [ ] Chapter 9
-- [ ] Chapter 10
-- [ ] Chapter 11
-- [ ] Chapter 12
-- [ ] Chapter 13
-- [ ] Chapter 14
-- [ ] Chapter 15
-- [ ] Chapter 16
+- [x] [Chapter 1 Exercises](https://archive.org/details/richard-bird-jeremy-gibbons-algorithm-design-with-haskell-cambridge-university-press-2020/page/16/mode/1up?view=theater)
+- [ ] [Chapter 2 Exercises](https://archive.org/details/richard-bird-jeremy-gibbons-algorithm-design-with-haskell-cambridge-university-press-2020/page/38/mode/1up?view=theater) - skipped for the time being
+- [ ] [Chapter 3 Exercises](https://archive.org/details/richard-bird-jeremy-gibbons-algorithm-design-with-haskell-cambridge-university-press-2020/page/54/mode/1up?view=theater) - WIP
+- [ ] [Chapter 4 Exercises](https://archive.org/details/richard-bird-jeremy-gibbons-algorithm-design-with-haskell-cambridge-university-press-2020/page/85/mode/1up?view=theater)
+- [ ] [Chapter 5 Exercises](https://archive.org/details/richard-bird-jeremy-gibbons-algorithm-design-with-haskell-cambridge-university-press-2020/page/111/mode/1up?view=theater)
+- [ ] [Chapter 6 Exercises](https://archive.org/details/richard-bird-jeremy-gibbons-algorithm-design-with-haskell-cambridge-university-press-2020/page/135/mode/1up?view=theater)
+- [ ] [Chapter 7 Exercises](https://archive.org/details/richard-bird-jeremy-gibbons-algorithm-design-with-haskell-cambridge-university-press-2020/page/166/mode/1up?view=theater)
+- [ ] [Chapter 8 Exercises](https://archive.org/details/richard-bird-jeremy-gibbons-algorithm-design-with-haskell-cambridge-university-press-2020/page/199/mode/1up?view=theater)
+- [ ] [Chapter 9 Exercises](https://archive.org/details/richard-bird-jeremy-gibbons-algorithm-design-with-haskell-cambridge-university-press-2020/page/229/mode/1up?view=theater)
+- [ ] [Chapter 10 Exercises](https://archive.org/details/richard-bird-jeremy-gibbons-algorithm-design-with-haskell-cambridge-university-press-2020/page/257/mode/1up?view=theater)
+- [ ] [Chapter 11 Exercises](https://archive.org/details/richard-bird-jeremy-gibbons-algorithm-design-with-haskell-cambridge-university-press-2020/page/281/mode/1up?view=theater)
+- [ ] [Chapter 12 Exercises](https://archive.org/details/richard-bird-jeremy-gibbons-algorithm-design-with-haskell-cambridge-university-press-2020/page/300/mode/1up?view=theater)
+- [ ] [Chapter 13 Exercises](https://archive.org/details/richard-bird-jeremy-gibbons-algorithm-design-with-haskell-cambridge-university-press-2020/page/327/mode/1up?view=theater)
+- [ ] [Chapter 14 Exercises](https://archive.org/details/richard-bird-jeremy-gibbons-algorithm-design-with-haskell-cambridge-university-press-2020/page/359/mode/1up?view=theater)
+- [ ] [Chapter 15 Exercises](https://archive.org/details/richard-bird-jeremy-gibbons-algorithm-design-with-haskell-cambridge-university-press-2020/page/395/mode/1up?view=theater)
+- [ ] [Chapter 16 Exercises](https://archive.org/details/richard-bird-jeremy-gibbons-algorithm-design-with-haskell-cambridge-university-press-2020/page/426/mode/1up?view=theater)
