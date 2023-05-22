@@ -10,6 +10,10 @@ import Test.Chapter01.Exercise12.SnocList (SnocList(..), (<:))
 -- Same as `CaseSymList` but inlines the `NonEmpty`, 
 -- so we don't pay for additional boxing.
 -- This is the type we'll use for implementing the rest of the SymmetricList exercises.
+--
+-- Again, one improvement we could make is to store the size of each list inside the `Ends`
+-- constructor. I haven't done so here so as to follow the general idea from the book.
+--    e.g. `Ends a Int (List a) Int (SnocList a) a`
 data SymmetricList a
   = Empty
   | Single a

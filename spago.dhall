@@ -14,7 +14,6 @@
   , "partial"
   , "prelude"
   , "spec"
-  , "transformers"
   , "tuples"
   ]
 , packages = ./packages.dhall

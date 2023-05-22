@@ -15,7 +15,7 @@ import Data.List (List(..), (:))
 -- ```
 -- let list     =            1  : 2  : 3 : Nil
 -- let snocList = SnocNil <: 1 <: 2 <: 3
--- toList snocList == list && fromList lsit == snocList
+-- toList snocList == list && fromList list == snocList
 -- ```
 data SnocList a
   = SnocNil

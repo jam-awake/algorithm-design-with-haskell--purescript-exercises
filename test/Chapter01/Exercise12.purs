@@ -70,6 +70,8 @@ inits_stackSafeHeapUnsafe = go Nil Nil
     Nil -> acc
     Cons h t -> reverseInnards (Cons (List.reverse h) acc) t
 
+-- At this point, you should look at the `SnocList.purs` file in this exercise's folder.
+--
 -- `NonEmpty  f a = NonEmpty  a (f a)  ` - Good for `List`s where `head` is exposed
 -- `NonEmptyR f a = NonEmptyR   (f a) a` - Good for `SnocList`s where `last` is exposed
 data NonEmptyR f a = NonEmptyR (f a) a
@@ -81,7 +83,8 @@ derive instance Eq1 f => Eq1 (NonEmptyR f)
 instance (Show (f a), Show a) => Show (NonEmptyR f a) where
   show (NonEmptyR fa a) = "(NonEmptyR " <> show fa <> " |: " <> show a <> ")"
 
--- This implementation is both stack-safe and heap-safe and easier to read than the above.
+-- This implementation is both stack-safe and heap-safe and easier to read than the 
+-- original implementation above.
 --  - Stack-safety: `go` is always called in a tail-call position.
 --  - Heap-safety: by using `SnocList`, the `1` element is in the tail position,
 --      which means it can be reused amongst all the lists after that point.
@@ -89,15 +92,17 @@ instance (Show (f a), Show a) => Show (NonEmptyR f a) where
 --
 -- To indicate non-emptyness, we use `NonEmptyR` rather than `NonEMpty`
 -- because `NonEmpty`'s `Show` instance assumes a left-to-right ordering:
+-- Given a List of `1 : 2 : Nil` and its corresponding SnocList of `SnocNil <: 1 <: 2`
 --   - Lists are correct:   `show $ NonEmpty 1 (2 : Nil)` == "1 :| 2 : Nil"
---   - SnocLists are not:   `show $ NonEmpty 1 (SnocNil <: 2)` == "1 :| SnocNil <: 2"
---   - SnocLists should be: `show $ NonEmptyR (SnocNil <: 2) 1` == "SnocNil <: 2 |: 1"
+--   - SnocLists are not:   `show $ NonEmpty 2 (SnocNil <: 1)` == "2 :| SnocNil <: 1"
+--   - SnocLists should be: `show $ NonEmptyR (SnocNil <: 1) 2` == "SnocNil <: 1 |: 2"
 --
 -- Given a list of 4 elements from 1 to 4, we're effectively creating the following list:
 --    SnocNil
 --      <: (SnocNil <: 1)
 --      <: (SnocNil <: 1 <: 2)
---      |: (SnocNil <: 1 <: 2 <: 3)
+--      <: (SnocNil <: 1 <: 2 <: 3)
+--      |: (SnocNil <: 1 <: 2 <: 3 <: 4)
 inits' :: forall a. List a -> NonEmptyR SnocList (SnocList a)
 inits' = go SnocNil SnocNil
   where
@@ -111,10 +116,14 @@ inits' = go SnocNil SnocNil
 -- Note that in `inits`, the returned outer list is still `SnocList`.
 -- If we want the closest we can get to `inits`, we can reverse the outer `SnocList`
 -- without running into heap-safety issues. If we reverse the inner `SnocList`,
--- that's when we run into heap-safety issues.
+-- that's when we run into heap-safety issues because we stop sharing the data
+-- in between multiple lists.
 inits :: forall a. List a -> NonEmpty List (SnocList a)
 inits = toNonEmptyList <<< inits'
 
+-- | (SnocNil <: 1) |: 2
+-- | ==
+-- |             1 :| (2 : Nil)
 toNonEmptyList :: forall a. NonEmptyR SnocList a -> NonEmpty List a
 toNonEmptyList (i |: l) = unwrap $ foldr NEL.nelCons (pure l) i
 
@@ -128,8 +137,9 @@ toNonEmptyList (i |: l) = unwrap $ foldr NEL.nelCons (pure l) i
 --      :| (2 : 3 : 4 : Nil)
 --       : (3 : 4 : Nil)
 --       : (4 : Nil)
---       : (Nil :: List Int)          -- annotations added here for clarity
---       : (Nil :: List (List Int))
+--       -- annotations added here for clarity
+--       : (Nil :: List Int) -- an empty list
+--       : (Nil :: List (List Int)) -- the end of the outer list
 --
 -- 
 tails :: forall a. List a -> NonEmpty List (List a)

@@ -2,7 +2,7 @@ module Test.Chapter03.Code.RandomAccessList where
 
 import Prelude
 
-import Data.Foldable (foldl, foldr)
+import Data.Foldable (foldr)
 import Data.Generic.Rep (class Generic)
 import Data.List (List(..), (:))
 import Data.List as List
@@ -34,6 +34,11 @@ node :: forall a. Tree a -> Tree a -> Tree a
 node l r = Node (treeSize l + treeSize r) l r
 
 -- 'a' : 'b' : 'c' : 'd' : 'e' : 'f' : Nil
+--
+-- `110` in binary == 6, so we have 6 elements in this list
+--
+-- Note: the relationship to binary numbers would be easier
+-- to see if the list was reversed.
 abcdefExample :: RandomAccessList Char
 abcdefExample =
   Zero
@@ -53,14 +58,14 @@ toList ls = ls >>= digitToList
 -- Ideally, this would be better thought-through
 -- but for convenience, I'm not worrying about that here.
 fromList :: forall a. List a -> RandomAccessList a
-fromList = foldl (flip consRA) Nil <<< List.reverse
+fromList = foldr consRA Nil
 
 digitToList :: forall a. Digit a -> List a
 digitToList = case _ of
   Zero -> Nil
   One t -> treeToList t
 
--- Note: this is stack safe via the two accumulators
+-- Note: this is stack safe due to the usage of the two accumulators
 treeToList :: forall a. Tree a -> List a
 treeToList = go Nil Nil
   where

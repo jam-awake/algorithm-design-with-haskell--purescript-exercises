@@ -63,8 +63,7 @@ spec = describe "Exercise 1" do
       , SymmetricList.Ends "a" ("b" : Nil) (SnocNil <: "c") "d"
       , SymmetricList.Ends "a" Nil (SnocNil <: "b" <: "c") "d"
       ]
-    -- Unlike the cases above, there's only one way to represent this list
-    -- in our ADT.
+    -- Unlike the cases above, there's only one way to represent this list.
     adtSymList =
       AdtSymList.Ends
         "a"

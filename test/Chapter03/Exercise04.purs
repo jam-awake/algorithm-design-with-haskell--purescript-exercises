@@ -15,6 +15,10 @@ import Test.Chapter03.Code.SymmetricList as SymmetricList
 import Test.Spec (Spec, describe, it)
 import Test.Spec.Assertions (shouldEqual)
 
+-- Note: here's a place where storing the size of a list within `Ends`
+-- would remove the traversal needed to calculate how long that list is,
+-- so that we can calculate where the midpoint is. Otherwise,
+-- we don't know where the split should occur.
 halveSLInit :: forall a. SnocList a -> Maybe { head :: a, init :: List a, tail :: SnocList a }
 halveSLInit ls = splitSLInit (SnocList.length ls / 2) ls
 
@@ -57,6 +61,7 @@ tailSL = case _ of
       Just tailR -> Ends tailR.head tailR.init tailR.tail last
       Nothing -> Single last
 
+-- Note: Same comments in `halveSLInit` apply here. 
 halveListLast :: forall a. List a -> Maybe { init :: List a, tail :: SnocList a, last :: a }
 halveListLast ls = splitListLast (List.length ls / 2) ls
 

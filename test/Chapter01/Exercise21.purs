@@ -11,6 +11,8 @@ import Data.Tuple (Tuple(..))
 import Test.Spec (Spec, describe, it)
 import Test.Spec.Assertions (shouldEqual)
 
+-- Note: it's not clear whether an empty list should be considered `steep` or not.
+-- This implementation assumes that an empty list is steep.
 steep :: List Int -> Boolean
 steep = go Nothing <<< List.reverse
   where

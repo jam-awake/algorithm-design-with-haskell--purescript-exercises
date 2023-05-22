@@ -23,6 +23,9 @@ singleSL = case _ of
   Single _ -> true
   _ -> false
 
+-- Note: here's a place where storing the list of each list
+-- as another argument within `Ends` would speed things up
+-- at the cost of some additional memory usage.
 lengthSL :: forall a. SymmetricList a -> Int
 lengthSL = case _ of
   Ends _ init tail _ -> 2 + List.length init + SnocList.length tail
